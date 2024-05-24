@@ -17,7 +17,8 @@ val DarkColorScheme = darkColorScheme(
     onPrimary = runningAppBlack,
     onBackground = runningAppWhite,
     onSurface = runningAppWhite,
-    onSurfaceVariant = runningAppDarkGray
+    onSurfaceVariant = runningAppGray,
+    onError = runningAppDarkRed
 )
 
 @Composable

@@ -36,10 +36,9 @@ fun RunningAppActionButton(
         colors = ButtonDefaults.buttonColors(
             contentColor = MaterialTheme.colorScheme.onPrimary,
             containerColor = MaterialTheme.colorScheme.primary,
-            disabledContentColor = runningAppGray,
-            disabledContainerColor = runningAppBlack
-        )
-        , shape = RoundedCornerShape(100f),
+            disabledContainerColor = runningAppGray,
+            disabledContentColor = runningAppBlack
+        ), shape = RoundedCornerShape(100f),
         modifier = modifier
             .height(IntrinsicSize.Min)
     ) {
@@ -79,8 +78,7 @@ fun RunningAppOutlinedActionButton(
         border = BorderStroke(
             width = 0.5.dp,
             color = MaterialTheme.colorScheme.onBackground
-        )
-        , shape = RoundedCornerShape(100f),
+        ), shape = RoundedCornerShape(100f),
         modifier = modifier
             .height(IntrinsicSize.Min)
     ) {
