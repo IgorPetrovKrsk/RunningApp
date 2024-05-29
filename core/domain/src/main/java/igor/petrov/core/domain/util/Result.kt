@@ -1,7 +1,5 @@
 package igor.petrov.core.domain.util
 
-import javax.xml.crypto.Data
-
 sealed interface Result<out D, out E:Error> {
    data class Success<out D> (val data: D): Result<D,Nothing>
    data class Error<out E:igor.petrov.core.domain.util.Error> (val error:E):Result<Nothing,E>
@@ -14,8 +12,8 @@ inline fun <T,E:Error,R> Result<T,E>.map(map:(T)-> R):Result<R,E>{
    }
 }
 
-fun <T,E:Error> Result<T,E>.asEmptyDataResult():EmptyDataResult<E>{
+fun <T,E:Error> Result<T,E>.asEmptyDataResult():EmptyResult<E>{
    return map{}
 }
 
-typealias EmptyDataResult<E> = Result<Unit,E>
+typealias EmptyResult<E> = Result<Unit,E>

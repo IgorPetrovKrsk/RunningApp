@@ -12,9 +12,11 @@
     <string name="email">Email\n</string>
     <string name="must_be_a_valid_email">Must be a valid email</string>
     <string name="password">Password\n</string>
-    <string name="at_least_x_characters">At least $d characters</string>
+    <string name="at_least_x_characters">At least %d characters</string>
     <string name="at_least_one_number">At least one number</string>
     <string name="contains_lower_case_character">Contains lower case character</string>
     <string name="contains_upper_case_character">Contains upper case character</string>
     <string name="register">Register</string>
+    <string name="error_email_exists">A user with that email already exists.</string>
+    <string name="registration_successful">Registration successful. You can log in now.</string>
 </resources>

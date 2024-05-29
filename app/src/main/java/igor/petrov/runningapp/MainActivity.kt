@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
 import igor.petrov.core.presentation.designsystem.AnalyticsIcon
 import igor.petrov.core.presentation.designsystem.RunningAppTheme
 
@@ -20,6 +21,8 @@ class MainActivity : ComponentActivity() {
             RunningAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Icon(imageVector = AnalyticsIcon, contentDescription = null, Modifier.padding(innerPadding))
+                    val navController = rememberNavController()
+                    NavigationRoot(navController = navController)
                 }
             }
         }
