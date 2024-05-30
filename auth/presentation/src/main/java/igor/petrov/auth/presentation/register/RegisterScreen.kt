@@ -46,7 +46,6 @@ import igor.petrov.core.presentation.designsystem.components.RunningAppActionBut
 import igor.petrov.core.presentation.designsystem.components.RunningAppPasswordTextField
 import igor.petrov.core.presentation.designsystem.components.RunningAppTextField
 import igor.petrov.core.presentation.designsystem.runningAppDarkRed
-import igor.petrov.core.presentation.designsystem.runningAppGray
 import igor.petrov.core.presentation.designsystem.runningAppGreen
 import igor.petrov.core.presentation.ui.ObserveAsEvents
 import org.koin.androidx.compose.koinViewModel
@@ -61,8 +60,8 @@ fun RegisterScreenRoot(
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    ObserveAsEvents(flow = viewModel.events) {event->
-        when(event){
+    ObserveAsEvents(flow = viewModel.events) { event ->
+        when (event) {
             is RegisterEvent.Error -> {
                 keyboardController?.hide()
                 Toast.makeText(
@@ -71,6 +70,7 @@ fun RegisterScreenRoot(
                     Toast.LENGTH_LONG
                 ).show()
             }
+
             RegisterEvent.RegistrationSuccess -> {
                 keyboardController?.hide()
                 Toast.makeText(
@@ -85,7 +85,14 @@ fun RegisterScreenRoot(
     }
     RegisterScreen(
         state = viewModel.state,
-        onAction = viewModel::onAction
+        onAction = { action ->
+            when (action) {
+                RegisterAction.OnLoginClick -> onSignInClick()
+                else -> Unit
+            }
+            viewModel.onAction(action)
+        }
+
     )
 }
 
@@ -110,7 +117,7 @@ private fun RegisterScreen(
                 withStyle(
                     style = SpanStyle(
                         fontFamily = Poppins,
-                        color = runningAppGray
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 ) {
                     append(stringResource(id = R.string.already_have_an_account) + " ")
@@ -180,7 +187,7 @@ private fun RegisterScreen(
                 isLoading = state.isRegistering,
                 enabled = state.canRegister,
                 modifier = Modifier.fillMaxWidth(),
-                onClick = {onAction(RegisterAction.OnRegisterClick)}
+                onClick = { onAction(RegisterAction.OnRegisterClick) }
             )
         }
     }

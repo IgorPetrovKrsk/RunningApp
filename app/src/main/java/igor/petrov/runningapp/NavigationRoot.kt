@@ -8,17 +8,20 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import igor.petrov.auth.presentation.login.LoginScreenRoot
 import igor.petrov.auth.presentation.register.RegisterScreenRoot
 
 @Composable
 fun NavigationRoot(
     navController: NavHostController,
+    isLoggedIn: Boolean
 ) {
     NavHost(
         navController = navController,
-        startDestination = "auth"
+        startDestination = if (isLoggedIn) "run" else "auth"
     ) {
         authGraph(navController)
+        runGraph(navController)
     }
 }
 
@@ -37,11 +40,11 @@ private fun NavGraphBuilder.authGraph(navController: NavHostController) {
                 }
             )
         }
-        composable(route = "register"){
+        composable(route = "register") {
             RegisterScreenRoot(
                 onSignInClick = {
-                    navController.navigate("login"){
-                        popUpTo("register"){
+                    navController.navigate("login") {
+                        popUpTo("register") {
                             inclusive = true
                             saveState = true
                         }
@@ -53,8 +56,36 @@ private fun NavGraphBuilder.authGraph(navController: NavHostController) {
                 }
             )
         }
-        composable("login"){
-            Text(text = "Login")
+        composable("login") {
+            LoginScreenRoot(
+                onLoginSuccess = {
+                    navController.navigate("run") {
+                        popUpTo("auth") {
+                            inclusive = true
+                        }
+                    }
+                },
+                onSingUpClick = {
+                    navController.navigate("register") {
+                        popUpTo("login") {
+                            inclusive = true
+                            saveState = true
+                        }
+                        restoreState = true
+                    }
+                }
+            )
+        }
+    }
+}
+
+private fun NavGraphBuilder.runGraph(navController: NavHostController){
+    navigation(
+        startDestination = "run_overview",
+        route = "run"
+    ){
+        composable("run_overview"){
+            Text(text = "Run overview")
         }
     }
 }
