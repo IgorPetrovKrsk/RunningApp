@@ -1,7 +1,6 @@
 package igor.petrov.runningapp
 
 import IntroScreenRoot
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -10,6 +9,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import igor.petrov.auth.presentation.login.LoginScreenRoot
 import igor.petrov.auth.presentation.register.RegisterScreenRoot
+import igor.petrov.run.presentation.active_run.ActiveRunScreenRoot
+import igor.petrov.run.presentation.runOverview.RunOverviewScreenRoot
 
 @Composable
 fun NavigationRoot(
@@ -85,7 +86,14 @@ private fun NavGraphBuilder.runGraph(navController: NavHostController){
         route = "run"
     ){
         composable("run_overview"){
-            Text(text = "Run overview")
+            RunOverviewScreenRoot(
+                onStartRunClick = {
+                    navController.navigate("active_run")
+                }
+            )
+        }
+        composable("active_run"){
+            ActiveRunScreenRoot()
         }
     }
 }
