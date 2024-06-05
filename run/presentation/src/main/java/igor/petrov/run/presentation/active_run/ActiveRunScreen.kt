@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import igor.petrov.core.presentation.designsystem.RunningAppTheme
 import igor.petrov.core.presentation.designsystem.StartIcon
 import igor.petrov.core.presentation.designsystem.StopIcon
+import igor.petrov.core.presentation.designsystem.components.RunningAppActionButton
 import igor.petrov.core.presentation.designsystem.components.RunningAppDialog
 import igor.petrov.core.presentation.designsystem.components.RunningAppFloatingActionButton
 import igor.petrov.core.presentation.designsystem.components.RunningAppOutlinedActionButton
@@ -33,6 +34,8 @@ import igor.petrov.core.presentation.designsystem.components.RunningAppScaffold
 import igor.petrov.core.presentation.designsystem.components.RunningAppToolbar
 import igor.petrov.run.presentation.R
 import igor.petrov.run.presentation.active_run.components.RunDataCard
+import igor.petrov.run.presentation.active_run.maps.TrackerMap
+import igor.petrov.run.presentation.active_run.service.ActiveRunService
 import igor.petrov.run.presentation.util.hasLocationPermission
 import igor.petrov.run.presentation.util.hasNotificationPermission
 import igor.petrov.run.presentation.util.shouldShowLocationPermissionRationale
@@ -42,10 +45,12 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 
 fun ActiveRunScreenRoot(
+    onServiceToggle: (isServiceRunning: Boolean) -> Unit,
     viewModel: ActiveRunViewModel = koinViewModel()
 ) {
     ActiveRunScreen(
         state = viewModel.state,
+        onServiceToggle = onServiceToggle,
         onAction = viewModel::onAction
     )
 }
@@ -53,6 +58,7 @@ fun ActiveRunScreenRoot(
 @Composable
 private fun ActiveRunScreen(
     state: ActiveRunState,
+    onServiceToggle: (isServiceRunning: Boolean) -> Unit,
     onAction: (ActiveRunAction) -> Unit
 ) {
     val context = LocalContext.current
@@ -102,8 +108,20 @@ private fun ActiveRunScreen(
             )
         )
 
-        if(!showLocationRational && !showNotification){
+        if (!showLocationRational && !showNotification) {
             permissionLauncher.requestRunningAppPermissions(context)
+        }
+    }
+
+    LaunchedEffect(key1 = state.shouldTrack) {
+        if(context.hasLocationPermission() && state.shouldTrack && !ActiveRunService.isServiceActive){
+            onServiceToggle(true)
+        }
+    }
+
+    LaunchedEffect(key1 = state.isRunFinished) {
+        if(state.isRunFinished){
+            onServiceToggle(false)
         }
     }
 
@@ -140,6 +158,14 @@ private fun ActiveRunScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surface)
         ) {
+            TrackerMap(
+                isRunFinished = state.isRunFinished,
+                currentLocation = state.currentLocation,
+                locations = state.runData.locations,
+                onSnapshot = {},
+                modifier = Modifier
+                    .fillMaxSize()
+            )
             RunDataCard(
                 elapsedTime = state.elapsedTime,
                 runData = state.runData,
@@ -151,6 +177,38 @@ private fun ActiveRunScreen(
 
         }
     }
+
+    if (!state.shouldTrack && state.hasStartedRunning) {
+        RunningAppDialog(
+            title = stringResource(id = R.string.running_is_paused),
+            onDismiss = {
+                onAction(ActiveRunAction.OnResumeRunClick)
+            },
+            description = stringResource(id = R.string.resume_or_finish_run),
+            primaryButton = {
+                RunningAppActionButton(
+                    text = stringResource(id = R.string.resume),
+                    isLoading = false,
+                    onClick = {
+                        onAction(ActiveRunAction.OnResumeRunClick)
+                    },
+                    modifier = Modifier.weight(1f)
+                )
+            },
+            secondaryButton = {
+                RunningAppOutlinedActionButton(
+                    text = stringResource(id = R.string.finish),
+                    isLoading = state.isSavingRun,
+                    onClick = {
+                        onAction(ActiveRunAction.OnFinishRunClick)
+                    },
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        )
+    }
+
+
 
     if (state.showLocationRationale || state.showNotificationRationale) {
         RunningAppDialog(
@@ -214,6 +272,7 @@ private fun ActiveRunScreenPreview() {
     RunningAppTheme {
         ActiveRunScreen(
             state = ActiveRunState(),
+            onServiceToggle = {},
             onAction = {}
         )
     }
