@@ -4,6 +4,7 @@ import android.app.Application
 import igor.petrov.auth.data.di.authDataModule
 import igor.petrov.auth.presentation.di.authViewModelModule
 import igor.petrov.core.data.di.coreDataModule
+import igor.petrov.core.database.di.databaseModule
 import igor.petrov.run.location.di.locationModule
 import igor.petrov.run.presentation.di.runPresentationModule
 import igor.petrov.runningapp.di.appModule
@@ -33,7 +34,8 @@ class RunningAppApp:Application() {
                 appModule,
                 coreDataModule,
                 runPresentationModule,
-                locationModule
+                locationModule,
+                databaseModule
             )
         }
     }

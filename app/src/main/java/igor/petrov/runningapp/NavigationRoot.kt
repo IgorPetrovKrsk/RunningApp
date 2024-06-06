@@ -13,7 +13,7 @@ import igor.petrov.auth.presentation.login.LoginScreenRoot
 import igor.petrov.auth.presentation.register.RegisterScreenRoot
 import igor.petrov.run.presentation.active_run.ActiveRunScreenRoot
 import igor.petrov.run.presentation.active_run.service.ActiveRunService
-import igor.petrov.run.presentation.runOverview.RunOverviewScreenRoot
+import igor.petrov.run.presentation.run_overview.RunOverviewScreenRoot
 
 @Composable
 fun NavigationRoot(

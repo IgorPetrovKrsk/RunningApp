@@ -1,4 +1,4 @@
-package igor.petrov.run.presentation.runOverview
+package igor.petrov.run.presentation.run_overview
 
 import androidx.lifecycle.ViewModel
 
