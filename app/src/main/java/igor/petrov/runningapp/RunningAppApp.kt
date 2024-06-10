@@ -6,6 +6,7 @@ import igor.petrov.auth.presentation.di.authViewModelModule
 import igor.petrov.core.data.di.coreDataModule
 import igor.petrov.core.database.di.databaseModule
 import igor.petrov.run.location.di.locationModule
+import igor.petrov.run.network.di.networkModule
 import igor.petrov.run.presentation.di.runPresentationModule
 import igor.petrov.runningapp.di.appModule
 import kotlinx.coroutines.CoroutineScope
@@ -35,7 +36,8 @@ class RunningAppApp:Application() {
                 coreDataModule,
                 runPresentationModule,
                 locationModule,
-                databaseModule
+                databaseModule,
+                networkModule
             )
         }
     }
