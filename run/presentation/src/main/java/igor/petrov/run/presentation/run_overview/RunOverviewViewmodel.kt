@@ -6,19 +6,32 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import igor.petrov.core.domain.run.RunRepository
+import igor.petrov.core.domain.run.SyncRunScheduler
+import igor.petrov.core.domain.util.SessionStorage
 import igor.petrov.run.presentation.run_overview.mapper.toRunUi
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.minutes
 
 class RunOverviewViewmodel(
-    private val runRepository: RunRepository
+    private val runRepository: RunRepository,
+    private val syncRunScheduler: SyncRunScheduler,
+    private val applicationScope: CoroutineScope,
+    private val sessionStorage: SessionStorage
 ): ViewModel()
 {
     var state by mutableStateOf(RunOverviewState())
         private set
 
     init {
+        viewModelScope.launch {
+            syncRunScheduler.scheduleSync(
+                type = SyncRunScheduler.SyncType.FetchRuns(30.minutes)
+            )
+        }
+
         runRepository.getRuns().onEach {runs ->
             val runsUi = runs.map {it.toRunUi()}
             state = state.copy(runs = runsUi)
@@ -31,7 +44,7 @@ class RunOverviewViewmodel(
     }
     fun onAction(action: RunOverviewAction){
         when (action){
-            RunOverviewAction.OnLogOutClick -> Unit
+            RunOverviewAction.OnLogOutClick -> logout()
             RunOverviewAction.OnStartRunClick -> Unit
             is RunOverviewAction.DeleteRun -> {
                 viewModelScope.launch {
@@ -40,6 +53,16 @@ class RunOverviewViewmodel(
             }
             else -> Unit
         }
+    }
+
+    private fun logout(){
+        applicationScope.launch {
+            syncRunScheduler.cancelAllSyncs()
+            runRepository.deleteAllRuns()
+            runRepository.logout()
+            sessionStorage.set(null)
+        }
+
     }
 
 }

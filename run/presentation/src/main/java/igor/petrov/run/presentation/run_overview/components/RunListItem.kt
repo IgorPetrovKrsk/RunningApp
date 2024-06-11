@@ -69,8 +69,6 @@ fun RunListItem(
         mutableStateOf(false)
     }
     Box {
-
-
         Column(
             modifier = modifier
                 .clip(RoundedCornerShape(15.dp))

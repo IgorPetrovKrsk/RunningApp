@@ -14,7 +14,7 @@ interface RunPendingSyncDao {
     suspend fun getAllRunPendingSyncEntities(userId: String): List<RunPendingSyncEntity>
 
     @Query("SELECT * FROM runpendingsyncentity WHERE runId=:runId")
-    suspend fun getAllRunPendingSyncEntity(runId:String): RunPendingSyncEntity?
+    suspend fun getRunPendingSyncEntity(runId:String): RunPendingSyncEntity?
 
     @Upsert
     suspend fun upsertRunPendingSyncEntity(runPendingSyncEntity: RunPendingSyncEntity)

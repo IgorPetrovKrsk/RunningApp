@@ -6,12 +6,12 @@ import igor.petrov.core.domain.run.Run
 import org.bson.types.ObjectId
 import java.time.Instant
 import java.time.ZoneId
-import kotlin.time.Duration.Companion.microseconds
+import kotlin.time.Duration.Companion.milliseconds
 
 fun RunEntity.toRun(): Run{
     return Run(
         id = id,
-        duration = durationMillis.microseconds,
+        duration = durationMillis.milliseconds,
         dateTimeUtc = Instant.parse(dateTimeUtc)
             .atZone(ZoneId.of("UTC")).withFixedOffsetZone(),
         distanceMeters = distanceMeters,
