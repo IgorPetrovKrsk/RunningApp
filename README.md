@@ -21,19 +21,25 @@ Analytics Dynamic Feature: Runs Analytics was designed and implemented as the Dy
 Screenshots:
 
 Saved runs overview:
+
 ![Saved runs](https://github.com/IgorPetrovKrsk/RunningApp/assets/105622148/4eea2a74-3cf6-44b2-bea4-c830348881cb)
 
 Active run screen:
+
 ![active run](https://github.com/IgorPetrovKrsk/RunningApp/assets/105622148/0b58425a-d882-4d04-9631-5d58a43ef631)
 
 Notification:
+
 ![active run notification](https://github.com/IgorPetrovKrsk/RunningApp/assets/105622148/293fb2f3-703d-472b-b979-58338773f0c2)
 
 Analytics screen:
+
 ![Analytics](https://github.com/IgorPetrovKrsk/RunningApp/assets/105622148/87a33da1-9ba3-4c0e-8f27-daf34a912823)
 
 Log in screen:
+
 ![Log in](https://github.com/IgorPetrovKrsk/RunningApp/assets/105622148/e020a49d-79ae-4ff8-869f-6e7fdf629a5b)
 
 Sing up screen:
+
 ![Sign up](https://github.com/IgorPetrovKrsk/RunningApp/assets/105622148/baf9e8b2-6edb-479a-a475-030b2d96f3d6)
