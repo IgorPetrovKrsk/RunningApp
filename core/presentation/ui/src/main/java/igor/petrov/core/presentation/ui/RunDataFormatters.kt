@@ -42,3 +42,7 @@ private fun Double.roundToDecimals(decimalCount: Int):Double{
     val factor = 10f.pow(decimalCount)
     return round(this*factor)/factor
 }
+
+fun Int?.toFormatedHeartRate():String{
+    return if (this != null) "$this bmp" else "-"
+}

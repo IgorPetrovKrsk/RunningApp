@@ -39,6 +39,13 @@ playServicesMaps = "19.0.0"
 annotation = "1.8.2"
 material3 = "1.2.1"
 
+# wear Os
+composeWearOs = "1.3.1"
+composeMaterialWearOs = "1.0.0-alpha20"
+health = "1.0.0-rc02"
+play-services-wearable = "18.1.0"
+wear = "1.3.0"
+
 # Project versions
 projectApplicationId = "igor.petrov.runningapp"
 projectVersionName = "1.0"
@@ -99,6 +106,14 @@ play-services-maps = { group = "com.google.android.gms", name = "play-services-m
 google-maps-android-utils-ktx = { module = "com.google.maps.android:maps-utils-ktx", version.ref = "mapsUtils"}
 annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
 
+# wear Os
+androidx-wear-compose-material = { group = "androidx.wear.compose", name = "compose-material3", version.ref = "composeMaterialWearOs" }
+androidx-wear-compose-foundation = { group = "androidx.wear.compose", name = "compose-foundation", version.ref = "composeWearOs" }
+androidx-wear-compose-ui-tooling = { group = "androidx.wear.compose", name = "compose-ui-tooling", version.ref = "composeWearOs" }
+play-services-wearable = { group = "com.google.android.gms", name = "play-services-wearable", version.ref = "play-services-wearable" }
+androidx-health-services-client = { group = "androidx.health", name = "health-services-client", version.ref = "health" }
+androidx-wear = { group = "androidx.wear", name = "wear", version.ref = "wear" }
+
 # Gradle
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
@@ -127,6 +142,7 @@ runningapp-android-room = { id = "runningapp.android.room", version = "unspecifi
 runningapp-android-dynamic-feature = { id = "runningapp.android.dynamic.feature", version = "unspecified"}
 runningapp-jvm-library = { id = "runningapp.jvm.library", version = "unspecified"}
 runningapp-jvm-ktor = { id = "runningapp.jvm.ktor", version = "unspecified"}
+runningapp-android-application-wear-compose = {id = "runningapp.android.application.wear.compose", version = "unspecified"}
 
 
 [bundles]
