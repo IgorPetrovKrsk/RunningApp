@@ -3,7 +3,7 @@
 package igor.petrov.auth.presentation.register
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.text2.input.TextFieldState
+import androidx.compose.foundation.text.input.TextFieldState
 import igor.petrov.auth.domain.PasswordValidationState
 
 data class RegisterState(

@@ -4,7 +4,6 @@
 package igor.petrov.auth.presentation.register
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.text2.input.textAsFlow
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -18,8 +17,6 @@ import igor.petrov.core.domain.util.Result
 import igor.petrov.core.presentation.ui.UiText
 import igor.petrov.core.presentation.ui.asUiText
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -34,23 +31,23 @@ class RegisterViewModel(
     val events = eventChannel.receiveAsFlow()
 
     init {
-        state.email.textAsFlow()
-            .onEach { email ->
-                val isValidEmail = userDataValidator.isValidEmail(email.toString())
-                state = state.copy(
-                    isEmailValid = isValidEmail,
-                    canRegister = isValidEmail && state.passwordValidationState.isValidPassword && !state.isRegistering
-                )
-            }.launchIn(viewModelScope)
-
-        state.password.textAsFlow()
-            .onEach { password ->
-                val passwordValidationState = userDataValidator.validatePassword(password.toString())
-                state = state.copy(
-                    passwordValidationState = passwordValidationState,
-                    canRegister = state.isEmailValid && passwordValidationState.isValidPassword && !state.isRegistering
-                )
-            }.launchIn(viewModelScope)
+//        state.email.textAsFlow()
+//            .onEach { email ->
+//                val isValidEmail = userDataValidator.isValidEmail(email.toString())
+//                state = state.copy(
+//                    isEmailValid = isValidEmail,
+//                    canRegister = isValidEmail && state.passwordValidationState.isValidPassword && !state.isRegistering
+//                )
+//            }.launchIn(viewModelScope)
+//
+//        state.password.textAsFlow()
+//            .onEach { password ->
+//                val passwordValidationState = userDataValidator.validatePassword(password.toString())
+//                state = state.copy(
+//                    passwordValidationState = passwordValidationState,
+//                    canRegister = state.isEmailValid && passwordValidationState.isValidPassword && !state.isRegistering
+//                )
+//            }.launchIn(viewModelScope)
     }
 
     fun onAction(action: RegisterAction) {

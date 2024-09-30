@@ -2,6 +2,7 @@ package igor.petrov.run.presentation.run_overview.mapper
 
 import igor.petrov.core.domain.run.Run
 import igor.petrov.core.presentation.ui.formatted
+import igor.petrov.core.presentation.ui.toFormatedHeartRate
 import igor.petrov.core.presentation.ui.toFormattedKm
 import igor.petrov.core.presentation.ui.toFormattedKmh
 import igor.petrov.core.presentation.ui.toFormattedMeters
@@ -27,7 +28,9 @@ fun Run.toRunUi(): RunUi{
         maxSpeed = maxSpeedKmh.toFormattedKmh(),
         pace = duration.toFormattedPace(distanceKm),
         totalElevation = totalElevationMeters.toFormattedMeters(),
-        mapPictureUrl = mapPictureUrl
+        mapPictureUrl = mapPictureUrl,
+        avgHeartRate = avgHeartRate.toFormatedHeartRate(),
+        maxHeartRate = maxHeartRate.toFormatedHeartRate()
 
     )
 }

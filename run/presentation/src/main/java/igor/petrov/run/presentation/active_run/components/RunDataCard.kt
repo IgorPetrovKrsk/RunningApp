@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import igor.petrov.core.presentation.designsystem.RunningAppTheme
 import igor.petrov.core.presentation.ui.formatted
+import igor.petrov.core.presentation.ui.toFormatedHeartRate
 import igor.petrov.core.presentation.ui.toFormattedKm
 import igor.petrov.core.presentation.ui.toFormattedPace
 import igor.petrov.run.domain.RunData
@@ -58,6 +59,12 @@ fun RunDataCard(
             RunDataItem(
                 title = stringResource(id = R.string.distance),
                 value = (runData.distanceMeters / 1000.0).toFormattedKm(),
+                modifier = Modifier
+                    .defaultMinSize(minWidth = 75.dp)
+            )
+            RunDataItem(
+                title = stringResource(id = R.string.heart_rate),
+                value = runData.heartRates.lastOrNull().toFormatedHeartRate(),
                 modifier = Modifier
                     .defaultMinSize(minWidth = 75.dp)
             )
@@ -101,7 +108,8 @@ private fun RunDataCardPreview() {
     RunningAppTheme {
         RunDataCard(elapsedTime = 10.minutes, runData = RunData(
             distanceMeters = 2222,
-            pace = 10.minutes
+            pace = 10.minutes,
+            heartRates = List(1,{60})
         ))
     }
 }

@@ -43,11 +43,13 @@ import igor.petrov.core.domain.location.Location
 import igor.petrov.core.domain.location.LocationTimestamp
 import igor.petrov.core.presentation.designsystem.RunIcon
 import igor.petrov.run.presentation.R
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@OptIn(DelicateCoroutinesApi::class)
 @Composable
 fun TrackerMap(
     isRunFinished: Boolean,

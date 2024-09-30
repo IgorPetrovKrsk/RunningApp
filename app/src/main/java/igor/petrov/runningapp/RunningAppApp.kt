@@ -5,6 +5,7 @@ import android.content.Context
 import com.google.android.play.core.splitcompat.SplitCompat
 import igor.petrov.auth.data.di.authDataModule
 import igor.petrov.auth.presentation.di.authViewModelModule
+import igor.petrov.core.connectivity.data.di.coreConnectivityDataModule
 import igor.petrov.core.data.di.coreDataModule
 import igor.petrov.core.database.di.databaseModule
 import igor.petrov.run.data.di.runDataModule
@@ -43,7 +44,8 @@ class RunningAppApp:Application() {
                 locationModule,
                 databaseModule,
                 networkModule,
-                runDataModule
+                runDataModule,
+                coreConnectivityDataModule
             )
         }
     }
