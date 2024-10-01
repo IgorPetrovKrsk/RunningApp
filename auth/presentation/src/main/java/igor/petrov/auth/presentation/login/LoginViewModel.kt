@@ -1,11 +1,10 @@
-@file:Suppress("OPT_IN_USAGE_FUTURE_ERROR")
-
 package igor.petrov.auth.presentation.login
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import igor.petrov.auth.domain.AuthRepository
@@ -16,6 +15,8 @@ import igor.petrov.core.domain.util.Result
 import igor.petrov.core.presentation.ui.UiText
 import igor.petrov.core.presentation.ui.asUiText
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -23,7 +24,7 @@ import kotlinx.coroutines.launch
 class LoginViewModel(
     private val authRepository: AuthRepository,
     private val userDataValidator: UserDataValidator
-): ViewModel() {
+) : ViewModel() {
 
     var state by mutableStateOf(LoginState())
         private set
@@ -32,21 +33,22 @@ class LoginViewModel(
     val events = eventChannel.receiveAsFlow()
 
     init {
-//        combine(state.email.textAsFlow(), state.password.textAsFlow()){email,password->
-//            state = state.copy(
-//                canLogin = userDataValidator.isValidEmail(email.toString().trim()) && password.isNotEmpty()
-//            )
-//        }.launchIn(viewModelScope)
+        snapshotFlow { state.email.text }.combine(snapshotFlow { state.password.text }){email,password->
+            state = state.copy(
+                canLogin = userDataValidator.isValidEmail(email.toString().trim()) && password.isNotEmpty()
+            )
+        }.launchIn(viewModelScope)
     }
 
-    fun onAction(action: LoginAction){
-        when (action){
+    fun onAction(action: LoginAction) {
+        when (action) {
             LoginAction.OnLoginClick -> login()
             LoginAction.OnTogglePasswordVisibility -> {
                 state = state.copy(
                     isPasswordVisible = !state.isPasswordVisible
                 )
             }
+
             else -> Unit
         }
     }
@@ -60,17 +62,18 @@ class LoginViewModel(
             )
             state = state.copy(isLoggingIn = false)
 
-            when (result){
+            when (result) {
                 is Result.Error -> {
                     if (result.error == DataError.Network.UNAUTHORIZED) {
                         eventChannel.send(LoginEvent.Error(
                             UiText.StringResource(R.string.error_email_password_incorrect)
                         ))
-                    }else{
+                    } else {
                         eventChannel.send(LoginEvent.Error(result.error.asUiText()))
                     }
                 }
-                is Result.Success ->{
+
+                is Result.Success -> {
                     eventChannel.send(LoginEvent.LoginSuccess)
                 }
             }
