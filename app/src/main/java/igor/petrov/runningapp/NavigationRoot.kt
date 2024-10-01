@@ -11,8 +11,8 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.navDeepLink
 import igor.petrov.auth.presentation.login.LoginScreenRoot
 import igor.petrov.auth.presentation.register.RegisterScreenRoot
+import igor.petrov.core.notification.ActiveRunService
 import igor.petrov.run.presentation.active_run.ActiveRunScreenRoot
-import igor.petrov.run.presentation.active_run.service.ActiveRunService
 import igor.petrov.run.presentation.run_overview.RunOverviewScreenRoot
 
 @Composable

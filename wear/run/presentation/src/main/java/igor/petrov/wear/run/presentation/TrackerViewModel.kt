@@ -1,3 +1,6 @@
+@file:OptIn(FlowPreview::class)
+@file:Suppress("OPT_IN_USAGE")
+
 package igor.petrov.wear.run.presentation
 
 import androidx.compose.runtime.getValue
@@ -8,20 +11,25 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import igor.petrov.core.connectivity.domain.messaging.MessagingAction
 import igor.petrov.core.domain.util.Result
+import igor.petrov.core.notification.ActiveRunService
 import igor.petrov.wear.run.domain.ExerciseTracker
 import igor.petrov.wear.run.domain.PhoneConnector
 import igor.petrov.wear.run.domain.RunningTracker
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 class TrackerViewModel(
     private val exerciseTracker: ExerciseTracker,
@@ -29,7 +37,11 @@ class TrackerViewModel(
     private val runningTracker: RunningTracker
 ) : ViewModel() {
 
-    var state by mutableStateOf(TrackerState())
+    var state by mutableStateOf(TrackerState(
+        hasStartedRunning = ActiveRunService.isServiceActive.value,
+        isRunActive = ActiveRunService.isServiceActive.value && runningTracker.isTracking.value,
+        isTrackable = ActiveRunService.isServiceActive.value
+    ))
         private set
 
 
@@ -98,23 +110,50 @@ class TrackerViewModel(
             state = state.copy(canTrackHeartRate = isHeartRateTrackingSupported)
         }
 
-        runningTracker
-            .heartRate
-            .onEach {
+        val isAmbientMode = snapshotFlow { state.isAmbientMode }
+
+        isAmbientMode
+            .flatMapLatest { isAmbientMode ->
+                if(isAmbientMode){
+                    runningTracker
+                        .heartRate
+                        .sample(10.seconds)
+                } else {
+                    runningTracker.heartRate
+                }
+            }.onEach {
                 state = state.copy(heartRate = it)
-            }.launchIn(viewModelScope)
+            }
+            .launchIn(viewModelScope)
 
-        runningTracker
-            .distanceMeters
-            .onEach {
+
+        isAmbientMode
+            .flatMapLatest { isAmbientMode ->
+                if(isAmbientMode){
+                    runningTracker
+                        .distanceMeters
+                        .sample(10.seconds)
+                } else {
+                    runningTracker.distanceMeters
+                }
+            }.onEach {
                 state = state.copy(distanceMeters = it)
-            }.launchIn(viewModelScope)
+            }
+            .launchIn(viewModelScope)
 
-        runningTracker
-            .elapsedTime
-            .onEach {
+        isAmbientMode
+            .flatMapLatest { isAmbientMode ->
+                if(isAmbientMode){
+                    runningTracker
+                        .elapsedTime
+                        .sample(10.seconds)
+                } else {
+                    runningTracker.elapsedTime
+                }
+            }.onEach {
                 state = state.copy(elapsedDuration = it)
-            }.launchIn(viewModelScope)
+            }
+            .launchIn(viewModelScope)
 
         listenToPhoneActions()
     }
@@ -156,6 +195,17 @@ class TrackerViewModel(
                         isRunActive = !state.isRunActive
                     )
                 }
+            }
+            is TrackerAction.OnEnterAmbientMode -> {
+                state = state.copy(
+                    isAmbientMode = true,
+                    burnInProtectionRequired = action.burnInProtectionRequired
+                )
+            }
+            TrackerAction.OnExitAmbientMode -> {
+                state = state.copy(
+                    isAmbientMode = false
+                )
             }
         }
     }

@@ -11,11 +11,11 @@ import igor.petrov.core.domain.location.Location
 import igor.petrov.core.domain.run.Run
 import igor.petrov.core.domain.run.RunRepository
 import igor.petrov.core.domain.util.Result
+import igor.petrov.core.notification.ActiveRunService
 import igor.petrov.core.presentation.ui.asUiText
 import igor.petrov.run.domain.LocationDataCalculator
 import igor.petrov.run.domain.RunningTracker
 import igor.petrov.run.domain.WatchConnector
-import igor.petrov.run.presentation.active_run.service.ActiveRunService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,8 +40,8 @@ class ActiveRunViewModel(
 ) : ViewModel() {
 
     var state by mutableStateOf(ActiveRunState(
-        shouldTrack = ActiveRunService.isServiceActive && runningTracker.isTracking.value,
-        hasStartedRunning = ActiveRunService.isServiceActive
+        shouldTrack = ActiveRunService.isServiceActive.value && runningTracker.isTracking.value,
+        hasStartedRunning = ActiveRunService.isServiceActive.value
     ))
         private set
 
@@ -278,7 +278,7 @@ class ActiveRunViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        if (!ActiveRunService.isServiceActive) {
+        if (!ActiveRunService.isServiceActive.value) {
             applicationScope.launch {
                 watchConnector.sendActionToWatch(MessagingAction.Untrackable)
             }

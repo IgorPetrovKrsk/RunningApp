@@ -70,6 +70,7 @@ dependencies {
     implementation(projects.core.domain)
     implementation(projects.core.data)
     implementation(projects.core.database)
+    implementation(projects.core.notification)
 
     implementation(projects.auth.presentation)
     implementation(projects.auth.domain)
@@ -83,4 +84,5 @@ dependencies {
 
     implementation(projects.core.connectivity.domain)
     implementation(projects.core.connectivity.data)
+
 }
