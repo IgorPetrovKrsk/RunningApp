@@ -54,4 +54,16 @@ Sing up screen:
 
 Wear OS start screen:
 
-![Start screen]()
+![Wear OS start](https://github.com/user-attachments/assets/992cd73a-aa3c-404e-bfb2-352bc683e98c)
+
+Wear OS active run screen:
+
+![Wear OS active run](https://github.com/user-attachments/assets/8f106ce9-89fd-47d9-afe4-9b49d265b1d3)
+
+Wear OS pause screen:
+
+![Wear OS active pause](https://github.com/user-attachments/assets/6f80050a-7919-4164-8a94-5621d1ac661c)
+
+Wear OS ambient mode:  
+
+![Wear OS ambient](https://github.com/user-attachments/assets/0a2c2744-c0bb-4fd4-a81c-bf4a85d1cf07)
