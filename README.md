@@ -12,6 +12,8 @@ Ktor: The app uses Ktor for asynchronous network operations, enabling the app to
 
 Koin: Koin is used for dependency injection, promoting a clean and maintainable codebase by managing dependencies effectively.
 
+Google Maps API Integration: Google Maps is integrated to display the current run route, providing users with a clear visual representation of their route.
+
 Offline-first Capability: The app is designed to function smoothly even without an internet connection or when the device is in airplane mode. It stores finished runs locally and employs Work Managers to sync these runs in the background once the internet connection is restored.
 
 Background Tracking: The app uses a Service to track the user's run in the background, ensuring continuous tracking without interruption. The current run duration is displayed as a notification, providing real-time feedback to the user.
@@ -21,6 +23,8 @@ Analytics Dynamic Feature: The app includes a Runs Analytics feature, implemente
 Multimodal Approach: The app is designed with a multimodal approach, ensuring easy accommodating of additional features and functionalities. This makes the app versatile and ready for future expansions, whether integrating new tracking capabilities, adding different types of workouts, or incorporating additional health metrics.
 
 This comprehensive approach to development ensures that the Running App not only meets the immediate user's needs but also provides a scalable and maintainable solution for long-term use. Its design allows for easy expansion, making it a future-proof choice for users seeking a reliable and adaptable running companion.
+
+Wear OS Integration: The app supports Wear OS functionality, allowing users to start and resume their runs directly from their smartwatches. The watch connects to the phone to retrieve running data and can monitor the user's heart rate in real time during runs. It also supports Ambient Mode to save energy, ensuring prolonged use without compromising performance.
 
 Screenshots:
 
@@ -47,3 +51,7 @@ Log in screen:
 Sing up screen:
 
 ![Sign up](https://github.com/IgorPetrovKrsk/RunningApp/assets/105622148/baf9e8b2-6edb-479a-a475-030b2d96f3d6)
+
+Wear OS start screen:
+
+![Start screen]()
