@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.runningapp.android.application.compose)
     alias(libs.plugins.mapsplatform.secrets.plugin)
     alias(libs.plugins.runningapp.jvm.ktor)
+    alias(libs.plugins.runningapp.android.junit5)
 }
 
 android {
@@ -84,5 +85,6 @@ dependencies {
 
     implementation(projects.core.connectivity.domain)
     implementation(projects.core.connectivity.data)
+
 
 }
